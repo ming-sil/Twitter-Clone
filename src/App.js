@@ -1,5 +1,11 @@
+import { useEffect } from "react";
+import { firebase } from "./firebase";
+
 function App() {
-  return <div></div>;
+  useEffect(() => {
+    console.log(firebase);
+  });
+  return <div>hello</div>;
 }
 
 export default App;
