@@ -1,6 +1,10 @@
 import { async } from "@firebase/util";
 import React, { useState } from "react";
 import { authService } from "../fbase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 export const Auth = () => {
   const [email, setEmail] = useState("");
@@ -22,12 +26,13 @@ export const Auth = () => {
     try {
       let data;
       if (newAccount) {
-        data = await authService.createUserWithEmailAndPassword(
+        data = await createUserWithEmailAndPassword(
+          authService,
           email,
           password
         );
       } else {
-        data = await authService.signInWithEmailAndPassword(email, password);
+        data = await signInWithEmailAndPassword(authService, email, password);
       }
       console.log(data);
     } catch (error) {
