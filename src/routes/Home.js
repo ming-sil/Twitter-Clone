@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import { dbService } from "../fbase";
 
 export const Home = () => {
   const [tweet, setTweet] = useState("");
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    await dbService.collection("tweets").add({
+      tweet,
+      createdAt: Date.now(),
+    });
+    setTweet("");
   };
   const onChange = (e) => {
     const {
