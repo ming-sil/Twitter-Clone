@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { dbService } from "../fbase";
+import { addDoc, collection } from "firebase/firestore";
 
 export const Home = () => {
   const [tweet, setTweet] = useState("");
   const onSubmit = async (e) => {
     e.preventDefault();
-    await dbService.collection("tweets").add({
+    await addDoc(collection(dbService, "tweets"), {
       tweet,
       createdAt: Date.now(),
     });
