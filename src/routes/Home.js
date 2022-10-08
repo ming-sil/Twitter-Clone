@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../fbase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 
 export const Home = () => {
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState([]);
   const getTweets = async () => {
-    const dbTweets = await dbService.collection("tweets").get();
+    const dbTweets = await getDocs(collection(dbService, "tweets"));
     dbTweets.forEach((document) => {
       const tweetObject = {
         ...document.data(),
         id: document.id,
       };
-      setTweet((prev) => [document.data(), ...prev]);
+      setTweets((prev) => [tweetObject, ...prev]);
     });
   };
   useEffect(() => {
@@ -32,6 +32,7 @@ export const Home = () => {
     } = e;
     setTweet(value);
   };
+  console.log(tweets);
   return (
     <div>
       <form onSubmit={onSubmit}>
