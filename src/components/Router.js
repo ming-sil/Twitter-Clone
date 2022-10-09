@@ -10,14 +10,14 @@ import { Home } from "../routes/Home";
 import { Profile } from "../routes/Profile";
 import { Navigation } from "./Navigation";
 
-export const AppRouter = ({ isLoggedIn }) => {
+export const AppRouter = ({ isLoggedIn, userObj }) => {
   return (
     <Router>
       {isLoggedIn && <Navigation />}
       <Routes>
         {isLoggedIn ? (
           <>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home userObj={userObj} />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<Navigate to="/" />} />
           </>
