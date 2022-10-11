@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../fbase";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 
 export const Home = ({ userObj }) => {
   console.log(userObj);
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState([]);
   useEffect(() => {
-    dbService.collection("tweets").onSnapshot((snapshot) => {
+    onSnapshot(collection(dbService, "tweets"), (snapshot) => {
       const tweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
