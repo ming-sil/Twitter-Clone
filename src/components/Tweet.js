@@ -1,11 +1,11 @@
-export const Tweet = ({tweetObj, isOwner}) => {
-    <div >
+export const Tweet = ({ tweetObj, isOwner }) => {
+  <div>
     <h4>{tweetObj.text}</h4>
     {isOwner && (
-        <>
-            <button>Delete</button>
-            <button>Edit</button>
-        </>
+      <>
+        <button>Delete</button>
+        <button>Edit</button>
+      </>
     )}
-  </div>
-}
+  </div>;
+};
