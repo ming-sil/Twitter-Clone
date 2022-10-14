@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../fbase";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { Tweet } from "components/Tweet";
 
 export const Home = ({ userObj }) => {
-  console.log(userObj);
+  // console.log(userObj);
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState([]);
   useEffect(() => {
-    onSnapshot(collection(dbService, "tweets"), (snapshot) => {
+    const q = query(
+      collection(dbService, "tweets"),
+      orderBy("createdAt", "desc")
+    );
+    onSnapshot(q, (snapshot) => {
       const tweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -18,11 +28,15 @@ export const Home = ({ userObj }) => {
   }, []);
   const onSubmit = async (e) => {
     e.preventDefault();
-    await addDoc(collection(dbService, "tweets"), {
-      text: tweet,
-      createdAt: Date.now(),
-      creatorId: userObj.uid,
-    });
+    try {
+      await addDoc(collection(dbService, "tweets"), {
+        text: tweet,
+        createdAt: Date.now(),
+        creatorId: userObj.uid,
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
     setTweet("");
   };
   const onChange = (e) => {
@@ -47,7 +61,7 @@ export const Home = ({ userObj }) => {
         {tweets.map((tweet) => (
           <Tweet
             key={tweet.id}
-            tweetObj={tweet}
+            tweetObj={tweet.text}
             isOwner={tweet.creatorId === userObj.uid}
           />
         ))}
