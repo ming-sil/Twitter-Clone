@@ -45,8 +45,9 @@ export const Home = ({ userObj }) => {
     } = e;
     setTweet(value);
   };
+
   return (
-    <div>
+    <>
       <form onSubmit={onSubmit}>
         <input
           value={tweet}
@@ -55,17 +56,17 @@ export const Home = ({ userObj }) => {
           placeholder="What's on your mind?"
           maxLength={120}
         />
-        <input type="submit" value="tweet" />
+        <input type="submit" value="Tweet" />
       </form>
       <div>
         {tweets.map((tweet) => (
           <Tweet
             key={tweet.id}
-            tweetObj={tweet.text}
+            tweetObj={tweet}
             isOwner={tweet.creatorId === userObj.uid}
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };
