@@ -10,7 +10,7 @@ import {
 import { Tweet } from "components/Tweet";
 
 export const Home = ({ userObj }) => {
-  // console.log(userObj);
+  console.log(userObj);
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState([]);
   useEffect(() => {
@@ -46,6 +46,7 @@ export const Home = ({ userObj }) => {
     setTweet(value);
   };
 
+  console.log(tweet);
   return (
     <>
       <form onSubmit={onSubmit}>
@@ -62,7 +63,7 @@ export const Home = ({ userObj }) => {
         {tweets.map((tweet) => (
           <Tweet
             key={tweet.id}
-            tweetObj={tweet}
+            tweetObj={tweet.text}
             isOwner={tweet.creatorId === userObj.uid}
           />
         ))}
